@@ -16,5 +16,4 @@ public class AuthResource {
     public ResponseEntity generateToken(@RequestBody AuthenticationRequestDTO dto) {
         return ResponseEntity.ok(this.userService.login(dto));
     }
-
 }

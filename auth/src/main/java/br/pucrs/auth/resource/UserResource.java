@@ -12,5 +12,4 @@ import br.pucrs.auth.service.UserService;
 @RequiredArgsConstructor
 public class UserResource {
     private final UserService service;
-
 }
