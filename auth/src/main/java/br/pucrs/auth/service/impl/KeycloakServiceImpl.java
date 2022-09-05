@@ -2,6 +2,7 @@ package br.pucrs.auth.service.impl;
 
 import br.pucrs.auth.dto.request.AuthenticationRequestDTO;
 import br.pucrs.auth.dto.response.AuthenticationResponseDTO;
+import br.pucrs.auth.dto.response.UserResponseDTO;
 import br.pucrs.auth.feign.KeycloakClient;
 import br.pucrs.auth.service.KeycloakService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -32,6 +34,12 @@ public class KeycloakServiceImpl implements KeycloakService {
             throw new IllegalArgumentException("Deve ser enviado Usuario e Senha");
         }
 
-        return this.keycloakClient.generateToken(grantType, clientId, clientSecret, dto.getUsername(), dto.getPassword());
+        return this.keycloakClient.generateToken(grantType, clientId, clientSecret, dto.getUsername(),
+                dto.getPassword());
+    }
+
+    @Override
+    public List<UserResponseDTO> findAllUsers(String auth) {
+        return this.keycloakClient.findAllUsers(auth);
     }
 }
