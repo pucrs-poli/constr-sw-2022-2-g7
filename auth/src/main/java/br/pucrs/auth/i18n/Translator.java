@@ -6,8 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Translator extends GenericTranslator {
-
-    private MessageSource source;
+    private final MessageSource source;
 
     @Autowired
     public Translator(MessageSource messageSource) {

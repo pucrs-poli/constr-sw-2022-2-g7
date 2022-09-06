@@ -1,10 +1,13 @@
 package br.pucrs.auth.service.impl;
 
 import br.pucrs.auth.dto.request.AuthenticationRequestDTO;
+import br.pucrs.auth.dto.request.UserRequestDTO;
 import br.pucrs.auth.dto.response.AuthenticationResponseDTO;
 import br.pucrs.auth.dto.response.UserResponseDTO;
 import br.pucrs.auth.feign.KeycloakClient;
+import br.pucrs.auth.service.AuthService;
 import br.pucrs.auth.service.KeycloakService;
+import br.pucrs.auth.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +20,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Slf4j
 public class KeycloakServiceImpl implements KeycloakService {
+    private final AuthService authService;
     private final KeycloakClient keycloakClient;
 
     @Value("${client.keycloak.grant-type}")
@@ -39,7 +43,14 @@ public class KeycloakServiceImpl implements KeycloakService {
     }
 
     @Override
-    public List<UserResponseDTO> findAllUsers(String auth) {
-        return this.keycloakClient.findAllUsers(auth);
+    public List<UserResponseDTO> findAllUsers() {
+        String token = this.authService.getLoggedUserToken();
+        return this.keycloakClient.findAllUsers(token);
+    }
+
+    @Override
+    public void saveUser(UserRequestDTO userRequestDTO) {
+        String token = this.authService.getLoggedUserToken();
+        this.keycloakClient.saveUser(token, userRequestDTO);
     }
 }

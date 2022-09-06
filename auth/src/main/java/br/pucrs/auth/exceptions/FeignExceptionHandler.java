@@ -1,5 +1,6 @@
 package br.pucrs.auth.exceptions;
 
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,10 +9,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Slf4j
 @ControllerAdvice
-public class AuthExceptionHandler {
-    @ExceptionHandler(value = AuthBadRequestException.class)
-    public ResponseEntity<Object> handleException(AuthBadRequestException exception) {
+public class FeignExceptionHandler {
+    @ExceptionHandler(value = FeignException.class)
+    public ResponseEntity<Object> handleException(FeignException exception) {
         log.error(exception.getMessage());
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.valueOf(exception.status()));
     }
 }

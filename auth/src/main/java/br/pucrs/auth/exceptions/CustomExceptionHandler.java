@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Slf4j
 @ControllerAdvice
-public class AuthExceptionHandler {
-    @ExceptionHandler(value = AuthBadRequestException.class)
-    public ResponseEntity<Object> handleException(AuthBadRequestException exception) {
+public class CustomExceptionHandler {
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    public ResponseEntity<Object> handleException(IllegalArgumentException exception) {
         log.error(exception.getMessage());
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
