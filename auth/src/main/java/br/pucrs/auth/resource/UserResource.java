@@ -1,6 +1,7 @@
 package br.pucrs.auth.resource;
 
 import br.pucrs.auth.dto.request.UserRequestDTO;
+import br.pucrs.auth.dto.request.UserUpdateRequestDTO;
 import br.pucrs.auth.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,12 @@ public class UserResource {
     @PostMapping
     public ResponseEntity save(@RequestBody UserRequestDTO userRequestDTO) {
         this.service.save(userRequestDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping
+    public ResponseEntity update(@RequestBody UserUpdateRequestDTO userUpdateRequestDTO) {
+        this.service.update(userUpdateRequestDTO);
         return ResponseEntity.ok().build();
     }
 }

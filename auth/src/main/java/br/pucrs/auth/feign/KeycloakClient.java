@@ -1,6 +1,7 @@
 package br.pucrs.auth.feign;
 
 import br.pucrs.auth.dto.request.UserRequestDTO;
+import br.pucrs.auth.dto.request.UserUpdateRequestDTO;
 import br.pucrs.auth.dto.response.AuthenticationResponseDTO;
 import br.pucrs.auth.dto.response.UserResponseDTO;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -25,4 +26,7 @@ public interface KeycloakClient {
 
     @PostMapping(path = "/admin/realms/constr-sw/users")
     void saveUser(@RequestHeader("Authorization") String token, @RequestBody UserRequestDTO userRequestDTO);
+
+    @PutMapping("/admin/realms/constr-sw/users/{id}")
+    void updateUser(@RequestHeader("Authorization") String token, @RequestBody UserUpdateRequestDTO userUpdateRequestDTO, @PathVariable("id") String id);
 }

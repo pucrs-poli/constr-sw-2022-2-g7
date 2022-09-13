@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRequestDTO {
-    private String username;
+public class UserUpdateRequestDTO {
+    private String id;
     private String firstName;
     private String lastName;
     private String email;
-    private String enabled;
 }
