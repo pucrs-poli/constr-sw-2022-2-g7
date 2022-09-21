@@ -1,4 +1,4 @@
-package br.pucrs.auth.dto.response;
+package br.pucrs.auth.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponseDTO {
+public class UserUpdateRequestDTO {
     private String id;
-    private String username;
     private String firstName;
     private String lastName;
     private String email;
-    private boolean enabled;
 }

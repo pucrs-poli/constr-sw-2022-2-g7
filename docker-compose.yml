@@ -1,6 +1,7 @@
-version: '3.4'
+version: "3.9"
 networks:
   constr-sw-2022-2:
+    driver: "bridge"
 volumes:
   keycloak-data:
     external: true
@@ -9,11 +10,23 @@ services:
     container_name: keycloak
     image: jboss/keycloak:latest
     ports:
-      - 8080:8080
+      - "8090:8080"
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=a12345678
     volumes:
       - keycloak-data:/opt/jboss/keycloak/standalone/data
+    networks:
+      - constr-sw-2022-2
+  auth:
+    image: "auth:latest"
+    depends_on:
+      - "keycloak"
+    ports:
+      - "8091:8091"
+    environment:
+      - KEYCLOAK_PORT=8090
+      - AUTH_SERVER_PORT=8091
+    build: ./auth
     networks:
       - constr-sw-2022-2

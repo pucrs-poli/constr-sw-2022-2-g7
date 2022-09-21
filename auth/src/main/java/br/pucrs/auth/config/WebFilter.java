@@ -1,19 +1,17 @@
 package br.pucrs.auth.config;
 
-import br.pucrs.auth.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
+import java.util.Arrays;
+import java.util.List;
 
-import static java.util.Objects.*;
+import static java.util.Objects.isNull;
 
 @Component
 @RequiredArgsConstructor
@@ -24,7 +22,12 @@ public class WebFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
-        if (!req.getServletPath().equalsIgnoreCase("/login")) {
+        List<String> allowedRoutes = Arrays.asList(
+                "/",
+                "/login"
+        );
+
+        if (!allowedRoutes.contains(req.getServletPath())) {
             String token = req.getHeader("Authorization");
             if (isNull(token)) {
                 res.setStatus(401);

@@ -1,7 +1,9 @@
 package br.pucrs.auth.service.impl;
 
 import br.pucrs.auth.dto.request.AuthenticationRequestDTO;
+import br.pucrs.auth.dto.request.UserChangePasswordDTO;
 import br.pucrs.auth.dto.request.UserRequestDTO;
+import br.pucrs.auth.dto.request.UserUpdateRequestDTO;
 import br.pucrs.auth.dto.response.AuthenticationResponseDTO;
 import br.pucrs.auth.dto.response.UserResponseDTO;
 import br.pucrs.auth.feign.KeycloakClient;
@@ -52,5 +54,29 @@ public class KeycloakServiceImpl implements KeycloakService {
     public void saveUser(UserRequestDTO userRequestDTO) {
         String token = this.authService.getLoggedUserToken();
         this.keycloakClient.saveUser(token, userRequestDTO);
+    }
+
+    @Override
+    public void updateUser(UserUpdateRequestDTO userUpdateRequestDTO) {
+        String token = this.authService.getLoggedUserToken();
+        this.keycloakClient.updateUser(token, userUpdateRequestDTO, userUpdateRequestDTO.getId());
+    }
+
+    @Override
+    public UserResponseDTO findUserById(String id) {
+        String token = this.authService.getLoggedUserToken();
+        return this.keycloakClient.findUserById(token, id);
+    }
+
+    @Override
+    public void changePassword(String id, UserChangePasswordDTO userChangePasswordDTO) {
+        String token = this.authService.getLoggedUserToken();
+        this.keycloakClient.changePassword(token, userChangePasswordDTO, id);
+    }
+
+    @Override
+    public void deleteUser(String id) {
+        String token = this.authService.getLoggedUserToken();
+        this.keycloakClient.deleteUser(token, id);
     }
 }
