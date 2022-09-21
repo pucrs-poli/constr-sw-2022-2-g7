@@ -1,9 +1,6 @@
 package br.pucrs.auth.service.impl;
 
-import br.pucrs.auth.dto.request.AuthenticationRequestDTO;
-import br.pucrs.auth.dto.request.UserChangePasswordDTO;
-import br.pucrs.auth.dto.request.UserRequestDTO;
-import br.pucrs.auth.dto.request.UserUpdateRequestDTO;
+import br.pucrs.auth.dto.request.*;
 import br.pucrs.auth.dto.response.AuthenticationResponseDTO;
 import br.pucrs.auth.dto.response.UserResponseDTO;
 import br.pucrs.auth.feign.KeycloakClient;
@@ -78,5 +75,11 @@ public class KeycloakServiceImpl implements KeycloakService {
     public void deleteUser(String id) {
         String token = this.authService.getLoggedUserToken();
         this.keycloakClient.deleteUser(token, id);
+    }
+
+    @Override
+    public AuthenticationResponseDTO refreshToken(RefreshTokenRequestDTO dto) {
+        String token = this.authService.getLoggedUserToken();
+        return this.keycloakClient.refreshToken(grantType, clientId, clientSecret, token);
     }
 }

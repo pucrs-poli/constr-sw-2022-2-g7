@@ -39,4 +39,11 @@ public interface KeycloakClient {
 
     @DeleteMapping("/admin/realms/constr-sw-2022-2/users/{id}")
     void deleteUser(@RequestHeader("Authorization") String token, @PathVariable("id") String id);
+
+    @PostMapping(path = "/realms/constr-sw/protocol/openid-connect/token", consumes = APPLICATION_FORM_URLENCODED_VALUE)
+    AuthenticationResponseDTO refreshToken(
+            @RequestPart("grant_type") String grantType,
+            @RequestPart("client_id") String clientId,
+            @RequestPart("client_secret") String clientSecret,
+            @RequestPart("refresh_token") String refreshToken);
 }
