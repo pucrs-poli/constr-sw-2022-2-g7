@@ -1,13 +1,16 @@
 package br.pucrs.auth.service;
 
 import br.pucrs.auth.dto.request.AuthenticationRequestDTO;
-import br.pucrs.auth.dto.request.RefreshTokenRequestDTO;
 import br.pucrs.auth.dto.response.AuthenticationResponseDTO;
+import br.pucrs.auth.dto.response.TokenIntrospectResponseDTO;
+import br.pucrs.auth.dto.response.UserInfoResponseDTO;
 
 public interface AuthService {
-    AuthenticationResponseDTO login(AuthenticationRequestDTO dto);
+    AuthenticationResponseDTO login(AuthenticationRequestDTO authenticationRequestDTO);
 
-    String getLoggedUserToken();
+    AuthenticationResponseDTO refreshToken(String refreshToken);
 
-    AuthenticationResponseDTO refreshToken(RefreshTokenRequestDTO dto);
+    UserInfoResponseDTO getUserInfo(String token);
+
+    TokenIntrospectResponseDTO tokenIntrospect(String token);
 }

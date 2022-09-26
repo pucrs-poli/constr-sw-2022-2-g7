@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserChangePasswordDTO {
+public class UserChangePasswordRequestDTO {
     private String password;
 }

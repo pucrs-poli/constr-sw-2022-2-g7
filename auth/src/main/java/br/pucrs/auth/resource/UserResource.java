@@ -1,6 +1,6 @@
 package br.pucrs.auth.resource;
 
-import br.pucrs.auth.dto.request.UserChangePasswordDTO;
+import br.pucrs.auth.dto.request.UserChangePasswordRequestDTO;
 import br.pucrs.auth.dto.request.UserRequestDTO;
 import br.pucrs.auth.dto.request.UserUpdateRequestDTO;
 import br.pucrs.auth.dto.response.UserResponseDTO;
@@ -40,8 +40,8 @@ public class UserResource {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity changePassword(@PathVariable("id") String id, @RequestBody UserChangePasswordDTO userChangePasswordDTO) {
-        this.service.changePassword(id, userChangePasswordDTO);
+    public ResponseEntity changePassword(@PathVariable("id") String id, @RequestBody UserChangePasswordRequestDTO userChangePasswordRequestDTO) {
+        this.service.changePassword(id, userChangePasswordRequestDTO);
         return ResponseEntity.ok().build();
     }
 
