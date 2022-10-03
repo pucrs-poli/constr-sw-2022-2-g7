@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
                 .username(userRequestDTO.getUsername())
                 .firstName(userRequestDTO.getFirstName())
                 .lastName(userRequestDTO.getLastName())
-                .enabled("S")
+                .enabled(true)
                 .email(userRequestDTO.getEmail())
                 .groups(this.getGroups(userRequestDTO))
                 .credentials(this.buildKeycloakUserCredentialsRequestDTO(userRequestDTO.getPassword()))
@@ -109,11 +110,11 @@ public class UserServiceImpl implements UserService {
         return userRequestDTO.getGroups().stream().map(UserGroup::getDescription).collect(Collectors.toList());
     }
 
-    private KeycloakUserCredentialsRequestDTO buildKeycloakUserCredentialsRequestDTO(String password) {
-        return KeycloakUserCredentialsRequestDTO.builder()
+    private List<KeycloakUserCredentialsRequestDTO> buildKeycloakUserCredentialsRequestDTO(String password) {
+        return Collections.singletonList(KeycloakUserCredentialsRequestDTO.builder()
                 .type(PASSWORD_TYPE)
                 .value(password)
                 .temporary(false)
-                .build();
+                .build());
     }
 }

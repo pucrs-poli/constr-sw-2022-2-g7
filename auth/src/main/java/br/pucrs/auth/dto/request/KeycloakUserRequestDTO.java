@@ -16,7 +16,7 @@ public class KeycloakUserRequestDTO {
     private String firstName;
     private String lastName;
     private String email;
-    private String enabled;
+    private boolean enabled;
     private List<String> groups;
-    private KeycloakUserCredentialsRequestDTO credentials;
+    private List<KeycloakUserCredentialsRequestDTO> credentials;
 }
