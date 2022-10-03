@@ -1,5 +1,6 @@
 package br.pucrs.auth.feign;
 
+import br.pucrs.auth.dto.request.KeycloakUserRequestDTO;
 import br.pucrs.auth.dto.request.UserChangePasswordRequestDTO;
 import br.pucrs.auth.dto.request.UserRequestDTO;
 import br.pucrs.auth.dto.request.UserUpdateRequestDTO;
@@ -45,7 +46,7 @@ public interface KeycloakClient {
     List<UserResponseDTO> findAllUsers(@RequestHeader("Authorization") String token);
 
     @PostMapping(path = "/admin/realms/constr-sw-2022-2/users")
-    void saveUser(@RequestHeader("Authorization") String token, @RequestBody UserRequestDTO userRequestDTO);
+    void saveUser(@RequestHeader("Authorization") String token, @RequestBody KeycloakUserRequestDTO keycloakUserRequestDTO);
 
     @PutMapping("/admin/realms/constr-sw-2022-2/users/{id}")
     void updateUser(@RequestHeader("Authorization") String token, @RequestBody UserUpdateRequestDTO userUpdateRequestDTO, @PathVariable("id") String id);

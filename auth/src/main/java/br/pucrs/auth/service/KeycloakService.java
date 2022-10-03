@@ -1,7 +1,7 @@
 package br.pucrs.auth.service;
 
+import br.pucrs.auth.dto.request.KeycloakUserRequestDTO;
 import br.pucrs.auth.dto.request.UserChangePasswordRequestDTO;
-import br.pucrs.auth.dto.request.UserRequestDTO;
 import br.pucrs.auth.dto.request.UserUpdateRequestDTO;
 import br.pucrs.auth.dto.response.AuthenticationResponseDTO;
 import br.pucrs.auth.dto.response.TokenIntrospectResponseDTO;
@@ -21,7 +21,7 @@ public interface KeycloakService {
 
     List<UserResponseDTO> findAllUsers();
 
-    void saveUser(UserRequestDTO userRequestDTO);
+    void saveUser(KeycloakUserRequestDTO keycloakUserRequestDTO);
 
     void updateUser(String id, UserUpdateRequestDTO userUpdateRequestDTO);
 

@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     public void save(UserRequestDTO userRequestDTO) {
         this.validate(userRequestDTO);
 
-        KeycloakUserRequestDTO.builder()
+        KeycloakUserRequestDTO keycloakUserRequestDTO = KeycloakUserRequestDTO.builder()
                 .username(userRequestDTO.getUsername())
                 .firstName(userRequestDTO.getFirstName())
                 .lastName(userRequestDTO.getLastName())
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
                 .credentials(this.buildKeycloakUserCredentialsRequestDTO(userRequestDTO.getPassword()))
                 .build();
 
-        this.keycloakService.saveUser(userRequestDTO);
+        this.keycloakService.saveUser(keycloakUserRequestDTO);
     }
 
     @Override
