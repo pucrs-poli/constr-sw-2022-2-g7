@@ -12,7 +12,7 @@ public interface UserService {
 
     void save(UserRequestDTO userRequestDTO);
 
-    void update(UserUpdateRequestDTO userUpdateRequestDTO);
+    void update(String id, UserUpdateRequestDTO userUpdateRequestDTO);
 
     UserResponseDTO findById(String id);
 

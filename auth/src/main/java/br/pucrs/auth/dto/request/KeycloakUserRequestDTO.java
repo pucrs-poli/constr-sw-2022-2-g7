@@ -5,12 +5,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUpdateRequestDTO {
+public class KeycloakUserRequestDTO {
+    private String username;
     private String firstName;
     private String lastName;
     private String email;
+    private String enabled;
+    private List<String> groups;
+    private KeycloakUserCredentialsRequestDTO credentials;
 }

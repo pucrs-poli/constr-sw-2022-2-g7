@@ -1,6 +1,5 @@
 package br.pucrs.auth.service.impl;
 
-import br.pucrs.auth.dto.request.AuthenticationRequestDTO;
 import br.pucrs.auth.dto.request.UserChangePasswordRequestDTO;
 import br.pucrs.auth.dto.request.UserRequestDTO;
 import br.pucrs.auth.dto.request.UserUpdateRequestDTO;
@@ -40,13 +39,8 @@ public class KeycloakServiceImpl implements KeycloakService {
     private static final String GRANT_TYPE_REFRESH_TOKEN = "refresh_token";
 
     @Override
-    public AuthenticationResponseDTO generateToken(AuthenticationRequestDTO authenticationRequestDTO) {
-        if (isNull(authenticationRequestDTO.getUsername()) || isNull(authenticationRequestDTO.getPassword())) {
-            throw new IllegalArgumentException("Deve ser enviado Usuario e Senha");
-        }
-
-        return this.keycloakClient.generateToken(GRANT_TYPE_PASSWORD, clientId, clientSecret, authenticationRequestDTO.getUsername(),
-            authenticationRequestDTO.getPassword());
+    public AuthenticationResponseDTO generateToken(String username, String password) {
+        return this.keycloakClient.generateToken(GRANT_TYPE_PASSWORD, clientId, clientSecret, username, password);
     }
 
     @Override
@@ -63,61 +57,65 @@ public class KeycloakServiceImpl implements KeycloakService {
 
     @Override
     public UserInfoResponseDTO getUserInfo(String token) {
-        if (isNull(token)) {
-            throw new IllegalArgumentException(translator.toLocale(
-                "msg_Field_0_is_Required",
-                translator.toLocale("msg_Token")
-            ));
-        }
+        this.validateTokenExists(token);
 
         return this.keycloakClient.getUserInfo("Bearer " + token);
     }
 
     @Override
     public TokenIntrospectResponseDTO tokenIntrospect(String token) {
-        if (isNull(token)) {
-            throw new IllegalArgumentException(translator.toLocale(
-                    "msg_Field_0_is_Required",
-                    translator.toLocale("msg_Token")
-            ));
-        }
-
+        this.validateTokenExists(token);
         return this.keycloakClient.tokenIntrospect(clientId, clientSecret, token);
     }
 
     @Override
     public List<UserResponseDTO> findAllUsers() {
         String token = AuthUtils.getLoggedUserToken();
+        this.validateTokenExists(token);
         return this.keycloakClient.findAllUsers(token);
     }
 
     @Override
     public void saveUser(UserRequestDTO userRequestDTO) {
         String token = AuthUtils.getLoggedUserToken();
+        this.validateTokenExists(token);
         this.keycloakClient.saveUser(token, userRequestDTO);
     }
 
     @Override
-    public void updateUser(UserUpdateRequestDTO userUpdateRequestDTO) {
+    public void updateUser(String id, UserUpdateRequestDTO userUpdateRequestDTO) {
         String token = AuthUtils.getLoggedUserToken();
-        this.keycloakClient.updateUser(token, userUpdateRequestDTO, userUpdateRequestDTO.getId());
+        this.validateTokenExists(token);
+        this.keycloakClient.updateUser(token, userUpdateRequestDTO, id);
     }
 
     @Override
     public UserResponseDTO findUserById(String id) {
         String token = AuthUtils.getLoggedUserToken();
+        this.validateTokenExists(token);
         return this.keycloakClient.findUserById(token, id);
     }
 
     @Override
     public void changePassword(String id, UserChangePasswordRequestDTO userChangePasswordRequestDTO) {
         String token = AuthUtils.getLoggedUserToken();
+        this.validateTokenExists(token);
         this.keycloakClient.changePassword(token, userChangePasswordRequestDTO, id);
     }
 
     @Override
     public void deleteUser(String id) {
         String token = AuthUtils.getLoggedUserToken();
+        this.validateTokenExists(token);
         this.keycloakClient.deleteUser(token, id);
+    }
+
+    private void validateTokenExists(String token) {
+        if (isNull(token)) {
+            throw new IllegalArgumentException(translator.toLocale(
+                    "msg_Field_0_is_Required",
+                    translator.toLocale("msg_Token")
+            ));
+        }
     }
 }

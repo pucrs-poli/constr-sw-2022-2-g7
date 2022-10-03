@@ -1,6 +1,5 @@
 package br.pucrs.auth.service.impl;
 
-import br.pucrs.auth.dto.request.AuthenticationRequestDTO;
 import br.pucrs.auth.dto.response.AuthenticationResponseDTO;
 import br.pucrs.auth.dto.response.TokenIntrospectResponseDTO;
 import br.pucrs.auth.dto.response.UserInfoResponseDTO;
@@ -23,12 +22,12 @@ public class AuthServiceImpl implements AuthService {
     private final Translator translator;
 
     @Override
-    public AuthenticationResponseDTO login(AuthenticationRequestDTO authenticationRequestDTO) {
-        if (isNull(authenticationRequestDTO.getUsername()) || isNull(authenticationRequestDTO.getPassword())) {
+    public AuthenticationResponseDTO login(String username, String password) {
+        if (isNull(username) || isNull(password)) {
             throw new AuthBadRequestException(translator.toLocale("msg_Invalid_User_Or_Password"));
         }
 
-        return this.keycloakService.generateToken(authenticationRequestDTO);
+        return this.keycloakService.generateToken(username, password);
     }
 
     @Override

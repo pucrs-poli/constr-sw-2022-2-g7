@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserUpdateRequestDTO {
-    private String firstName;
-    private String lastName;
-    private String email;
+public class KeycloakUserCredentialsRequestDTO {
+    private String type;
+    private String value;
+    private boolean temporary;
 }

@@ -25,12 +25,12 @@ public class UserResource {
     @PostMapping
     public ResponseEntity save(@RequestBody UserRequestDTO userRequestDTO) {
         this.service.save(userRequestDTO);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(201).build();
     }
 
-    @PutMapping
-    public ResponseEntity update(@RequestBody UserUpdateRequestDTO userUpdateRequestDTO) {
-        this.service.update(userUpdateRequestDTO);
+    @PutMapping("{id}")
+    public ResponseEntity update(@PathVariable("id") String id, @RequestBody UserUpdateRequestDTO userUpdateRequestDTO) {
+        this.service.update(id, userUpdateRequestDTO);
         return ResponseEntity.ok().build();
     }
 
@@ -48,6 +48,6 @@ public class UserResource {
     @DeleteMapping("{id}")
     public ResponseEntity delete(@PathVariable("id") String id) {
         this.service.delete(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(204).build();
     }
 }

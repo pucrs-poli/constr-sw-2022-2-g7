@@ -1,13 +1,9 @@
 package br.pucrs.auth.resource;
 
-import br.pucrs.auth.dto.request.AuthenticationRequestDTO;
 import br.pucrs.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,22 +11,22 @@ public class AuthResource {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity generateToken(@RequestBody AuthenticationRequestDTO authenticationRequestDTO) {
-        return ResponseEntity.ok(this.authService.login(authenticationRequestDTO));
+    public ResponseEntity generateToken(@RequestParam("username") String username, @RequestParam("password") String password) {
+        return ResponseEntity.ok(this.authService.login(username, password));
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity refreshToken(@RequestBody String refreshToken) {
+    public ResponseEntity refreshToken(@RequestParam("refresh-token") String refreshToken) {
         return ResponseEntity.ok(this.authService.refreshToken(refreshToken));
     }
 
     @GetMapping("/user-info")
-    public ResponseEntity getUserInfo(@RequestBody String token) {
+    public ResponseEntity getUserInfo(@RequestParam("token") String token) {
         return ResponseEntity.ok(this.authService.getUserInfo(token));
     }
 
     @GetMapping("/token-introspect")
-    public ResponseEntity tokenIntrospect(@RequestBody String token) {
+    public ResponseEntity tokenIntrospect(@RequestParam("token") String token) {
         return ResponseEntity.ok(this.authService.tokenIntrospect(token));
     }
 }

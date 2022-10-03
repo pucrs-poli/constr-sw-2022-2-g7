@@ -1,9 +1,8 @@
 package br.pucrs.auth.service.impl;
 
-import br.pucrs.auth.dto.request.UserChangePasswordRequestDTO;
-import br.pucrs.auth.dto.request.UserRequestDTO;
-import br.pucrs.auth.dto.request.UserUpdateRequestDTO;
+import br.pucrs.auth.dto.request.*;
 import br.pucrs.auth.dto.response.UserResponseDTO;
+import br.pucrs.auth.enums.UserGroup;
 import br.pucrs.auth.i18n.Translator;
 import br.pucrs.auth.service.KeycloakService;
 import br.pucrs.auth.service.UserService;
@@ -12,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
@@ -22,6 +22,8 @@ public class UserServiceImpl implements UserService {
     private final KeycloakService keycloakService;
     private final Translator translator;
 
+    private static final String PASSWORD_TYPE = "password";
+
     @Override
     public List<UserResponseDTO> findAll() {
         return this.keycloakService.findAllUsers();
@@ -30,19 +32,29 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(UserRequestDTO userRequestDTO) {
         this.validate(userRequestDTO);
-        userRequestDTO.toBuilder().enabled("S");
+
+        KeycloakUserRequestDTO.builder()
+                .username(userRequestDTO.getUsername())
+                .firstName(userRequestDTO.getFirstName())
+                .lastName(userRequestDTO.getLastName())
+                .enabled("S")
+                .email(userRequestDTO.getEmail())
+                .groups(this.getGroups(userRequestDTO))
+                .credentials(this.buildKeycloakUserCredentialsRequestDTO(userRequestDTO.getPassword()))
+                .build();
+
         this.keycloakService.saveUser(userRequestDTO);
     }
 
     @Override
-    public void update(UserUpdateRequestDTO userUpdateRequestDTO) {
-        if (isNull(userUpdateRequestDTO.getId())) {
+    public void update(String id, UserUpdateRequestDTO userUpdateRequestDTO) {
+        if (isNull(id)) {
             throw new IllegalArgumentException(translator.toLocale(
                     "msg_Field_0_is_Required",
                     translator.toLocale("msg_id")
             ));
         }
-        this.keycloakService.updateUser(userUpdateRequestDTO);
+        this.keycloakService.updateUser(id, userUpdateRequestDTO);
     }
 
     @Override
@@ -73,6 +85,12 @@ public class UserServiceImpl implements UserService {
                     translator.toLocale("msg_Username")
             ));
         }
+        if (isNull(userRequestDTO.getPassword())) {
+            throw new IllegalArgumentException(translator.toLocale(
+                    "msg_Field_0_is_Required",
+                    translator.toLocale("msg_Password")
+            ));
+        }
         if (isNull(userRequestDTO.getFirstName())) {
             throw new IllegalArgumentException(translator.toLocale(
                     "msg_Field_0_is_Required",
@@ -85,5 +103,17 @@ public class UserServiceImpl implements UserService {
                     translator.toLocale("msg_Email")
             ));
         }
+    }
+
+    private List<String> getGroups(UserRequestDTO userRequestDTO) {
+        return userRequestDTO.getGroups().stream().map(UserGroup::getDescription).collect(Collectors.toList());
+    }
+
+    private KeycloakUserCredentialsRequestDTO buildKeycloakUserCredentialsRequestDTO(String password) {
+        return KeycloakUserCredentialsRequestDTO.builder()
+                .type(PASSWORD_TYPE)
+                .value(password)
+                .temporary(false)
+                .build();
     }
 }
