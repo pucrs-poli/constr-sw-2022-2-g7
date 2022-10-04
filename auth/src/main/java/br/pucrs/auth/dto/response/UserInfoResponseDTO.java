@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @Builder(toBuilder = true)
 @NoArgsConstructor
@@ -19,6 +21,9 @@ public class UserInfoResponseDTO {
 
     @JsonProperty("name")
     private String name;
+
+    @JsonProperty("groups")
+    private List<String> groups;
 
     @JsonProperty("preferred_username")
     private String preferredUsername;
