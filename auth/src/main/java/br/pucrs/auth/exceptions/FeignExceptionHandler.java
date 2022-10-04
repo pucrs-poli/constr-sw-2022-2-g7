@@ -25,6 +25,9 @@ public class FeignExceptionHandler {
             case 404 -> {
                 return this.buildResponseEntity(translator.toLocale("msg_Not_Found_The_Requested_Object_Was_Not_Found"), HttpStatus.NOT_FOUND);
             }
+            case 409 -> {
+                return  this.buildResponseEntity(translator.toLocale("msg_The_Record_Already_Exists"), HttpStatus.CONFLICT);
+            }
         }
 
         String error = this.getErrorMessage(exception.getMessage());

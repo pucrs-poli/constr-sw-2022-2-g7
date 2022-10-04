@@ -6,6 +6,7 @@ import br.pucrs.auth.enums.UserGroup;
 import br.pucrs.auth.i18n.Translator;
 import br.pucrs.auth.service.KeycloakService;
 import br.pucrs.auth.service.UserService;
+import br.pucrs.auth.utils.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -86,6 +87,9 @@ public class UserServiceImpl implements UserService {
                     translator.toLocale("msg_Username")
             ));
         }
+        if (ValidationUtils.validateEmail(userRequestDTO.getUsername())) {
+            throw new IllegalArgumentException(translator.toLocale("msg_Email_Format_Is_Not_Valid"));
+        }
         if (isNull(userRequestDTO.getPassword())) {
             throw new IllegalArgumentException(translator.toLocale(
                     "msg_Field_0_is_Required",
@@ -103,6 +107,9 @@ public class UserServiceImpl implements UserService {
                     "msg_Field_0_is_Required",
                     translator.toLocale("msg_Email")
             ));
+        }
+        if (ValidationUtils.validateEmail(userRequestDTO.getEmail())) {
+            throw new IllegalArgumentException(translator.toLocale("msg_Email_Format_Is_Not_Valid"));
         }
     }
 
