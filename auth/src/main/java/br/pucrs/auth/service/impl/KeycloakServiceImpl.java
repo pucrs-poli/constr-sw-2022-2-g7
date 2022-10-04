@@ -47,8 +47,8 @@ public class KeycloakServiceImpl implements KeycloakService {
     public AuthenticationResponseDTO refreshToken(String refreshToken) {
         if (isNull(refreshToken)) {
             throw new IllegalArgumentException(translator.toLocale(
-                "msg_Field_0_is_Required",
-                translator.toLocale("msg_Refresh_Token")
+                    "msg_Field_0_is_Required",
+                    translator.toLocale("msg_Refresh_Token")
             ));
         }
 
@@ -59,13 +59,13 @@ public class KeycloakServiceImpl implements KeycloakService {
     public UserInfoResponseDTO getUserInfo(String token) {
         this.validateTokenExists(token);
 
-        return this.keycloakClient.getUserInfo("Bearer " + token);
+        return this.keycloakClient.getUserInfo(token);
     }
 
     @Override
     public TokenIntrospectResponseDTO tokenIntrospect(String token) {
         this.validateTokenExists(token);
-        return this.keycloakClient.tokenIntrospect(clientId, clientSecret, token);
+        return this.keycloakClient.tokenIntrospect(clientId, clientSecret, token.replaceFirst("Bearer ", ""));
     }
 
     @Override
