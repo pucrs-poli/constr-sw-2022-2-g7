@@ -23,13 +23,13 @@ public class UserResource {
     }
 
     @PostMapping
-    public ResponseEntity save(@RequestBody UserRequestDTO userRequestDTO) {
+    public ResponseEntity<Void> save(@RequestBody UserRequestDTO userRequestDTO) {
         this.service.save(userRequestDTO);
         return ResponseEntity.status(201).build();
     }
 
     @PutMapping("{id}")
-    public ResponseEntity update(@PathVariable("id") String id, @RequestBody UserUpdateRequestDTO userUpdateRequestDTO) {
+    public ResponseEntity<Void> update(@PathVariable("id") String id, @RequestBody UserUpdateRequestDTO userUpdateRequestDTO) {
         this.service.update(id, userUpdateRequestDTO);
         return ResponseEntity.ok().build();
     }
@@ -40,13 +40,13 @@ public class UserResource {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity changePassword(@PathVariable("id") String id, @RequestBody UserChangePasswordRequestDTO userChangePasswordRequestDTO) {
+    public ResponseEntity<Void> changePassword(@PathVariable("id") String id, @RequestBody UserChangePasswordRequestDTO userChangePasswordRequestDTO) {
         this.service.changePassword(id, userChangePasswordRequestDTO);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity delete(@PathVariable("id") String id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") String id) {
         this.service.delete(id);
         return ResponseEntity.status(204).build();
     }

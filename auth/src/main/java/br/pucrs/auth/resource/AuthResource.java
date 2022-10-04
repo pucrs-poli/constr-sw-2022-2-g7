@@ -1,6 +1,10 @@
 package br.pucrs.auth.resource;
 
+import br.pucrs.auth.dto.response.AuthenticationResponseDTO;
+import br.pucrs.auth.dto.response.TokenIntrospectResponseDTO;
+import br.pucrs.auth.dto.response.UserInfoResponseDTO;
 import br.pucrs.auth.service.AuthService;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,22 +16,22 @@ public class AuthResource {
     private final AuthService authService;
 
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ResponseEntity generateToken(@ModelAttribute("username") String username, @ModelAttribute("password") String password) {
+    public ResponseEntity<AuthenticationResponseDTO> generateToken(@ModelAttribute("username") String username, @ModelAttribute("password") String password) {
         return ResponseEntity.ok(this.authService.login(username, password));
     }
 
-    @PostMapping("/refresh-token")
-    public ResponseEntity refreshToken(@RequestParam("refresh-token") String refreshToken) {
+    @PostMapping(value = "/refresh-token")
+    public ResponseEntity<AuthenticationResponseDTO> refreshToken(@RequestBody() String refreshToken) {
         return ResponseEntity.ok(this.authService.refreshToken(refreshToken));
     }
 
     @GetMapping("/user-info")
-    public ResponseEntity getUserInfo(@RequestParam("token") String token) {
+    public ResponseEntity<UserInfoResponseDTO> getUserInfo(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(this.authService.getUserInfo(token));
     }
 
     @GetMapping("/token-introspect")
-    public ResponseEntity tokenIntrospect(@RequestParam("token") String token) {
+    public ResponseEntity<TokenIntrospectResponseDTO> tokenIntrospect(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(this.authService.tokenIntrospect(token));
     }
 }
