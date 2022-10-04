@@ -4,7 +4,6 @@ import br.pucrs.auth.dto.response.AuthenticationResponseDTO;
 import br.pucrs.auth.dto.response.TokenIntrospectResponseDTO;
 import br.pucrs.auth.dto.response.UserInfoResponseDTO;
 import br.pucrs.auth.service.AuthService;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

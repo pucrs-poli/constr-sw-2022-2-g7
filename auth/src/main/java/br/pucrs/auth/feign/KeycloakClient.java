@@ -1,6 +1,8 @@
 package br.pucrs.auth.feign;
 
-import br.pucrs.auth.dto.request.*;
+import br.pucrs.auth.dto.request.KeyCloakChangePasswordRequestDTO;
+import br.pucrs.auth.dto.request.KeycloakUserRequestDTO;
+import br.pucrs.auth.dto.request.UserUpdateRequestDTO;
 import br.pucrs.auth.dto.response.AuthenticationResponseDTO;
 import br.pucrs.auth.dto.response.TokenIntrospectResponseDTO;
 import br.pucrs.auth.dto.response.UserInfoResponseDTO;
