@@ -2,6 +2,7 @@ package br.pucrs.auth.resource;
 
 import br.pucrs.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 public class AuthResource {
     private final AuthService authService;
 
-    @PostMapping("/login")
-    public ResponseEntity generateToken(@RequestParam("username") String username, @RequestParam("password") String password) {
+    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity generateToken(@ModelAttribute("username") String username, @ModelAttribute("password") String password) {
         return ResponseEntity.ok(this.authService.login(username, password));
     }
 
