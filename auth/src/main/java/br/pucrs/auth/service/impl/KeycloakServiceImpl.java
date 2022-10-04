@@ -1,9 +1,6 @@
 package br.pucrs.auth.service.impl;
 
-import br.pucrs.auth.dto.request.KeycloakUserRequestDTO;
-import br.pucrs.auth.dto.request.UserChangePasswordRequestDTO;
-import br.pucrs.auth.dto.request.UserRequestDTO;
-import br.pucrs.auth.dto.request.UserUpdateRequestDTO;
+import br.pucrs.auth.dto.request.*;
 import br.pucrs.auth.dto.response.AuthenticationResponseDTO;
 import br.pucrs.auth.dto.response.TokenIntrospectResponseDTO;
 import br.pucrs.auth.dto.response.UserInfoResponseDTO;
@@ -98,10 +95,10 @@ public class KeycloakServiceImpl implements KeycloakService {
     }
 
     @Override
-    public void changePassword(String id, UserChangePasswordRequestDTO userChangePasswordRequestDTO) {
+    public void changePassword(String id, KeyCloakChangePasswordRequestDTO keyCloakChangePasswordRequestDTO) {
         String token = AuthUtils.getLoggedUserToken();
         this.validateTokenExists(token);
-        this.keycloakClient.changePassword(token, userChangePasswordRequestDTO, id);
+        this.keycloakClient.changePassword(token, keyCloakChangePasswordRequestDTO, id);
     }
 
     @Override

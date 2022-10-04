@@ -1,5 +1,6 @@
 package br.pucrs.auth.service;
 
+import br.pucrs.auth.dto.request.KeyCloakChangePasswordRequestDTO;
 import br.pucrs.auth.dto.request.KeycloakUserRequestDTO;
 import br.pucrs.auth.dto.request.UserChangePasswordRequestDTO;
 import br.pucrs.auth.dto.request.UserUpdateRequestDTO;
@@ -27,7 +28,7 @@ public interface KeycloakService {
 
     UserResponseDTO findUserById(String id);
 
-    void changePassword(String id, UserChangePasswordRequestDTO userChangePasswordRequestDTO);
+    void changePassword(String id, KeyCloakChangePasswordRequestDTO keyCloakChangePasswordRequestDTO);
 
     void deleteUser(String id);
 }

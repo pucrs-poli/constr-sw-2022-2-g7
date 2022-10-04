@@ -72,7 +72,14 @@ public class UserServiceImpl implements UserService {
                     translator.toLocale("msg_Password")
             ));
         }
-        this.keycloakService.changePassword(id, userChangePasswordRequestDTO);
+
+        KeyCloakChangePasswordRequestDTO keyCloakChangePasswordRequestDTO = KeyCloakChangePasswordRequestDTO.builder()
+                .type("password")
+                .temporary(false)
+                .value(userChangePasswordRequestDTO.getPassword())
+                .build();
+
+        this.keycloakService.changePassword(id, keyCloakChangePasswordRequestDTO);
     }
 
     @Override
