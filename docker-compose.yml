@@ -11,9 +11,9 @@ services:
     image: jboss/keycloak:latest
     ports:
       - "8090:8080"
-    # environment:
-      # - KEYCLOAK_USER=admin
-      # - KEYCLOAK_PASSWORD=a12345678
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=a12345678
     volumes:
       - keycloak-data:/opt/jboss/keycloak/standalone/data
     networks:
