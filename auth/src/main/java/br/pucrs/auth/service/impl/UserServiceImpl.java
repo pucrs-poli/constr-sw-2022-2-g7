@@ -73,13 +73,13 @@ public class UserServiceImpl implements UserService {
             ));
         }
 
-        KeyCloakChangePasswordRequestDTO keyCloakChangePasswordRequestDTO = KeyCloakChangePasswordRequestDTO.builder()
+        KeycloakUserCredentialsRequestDTO keycloakUserCredentialsRequestDTO = KeycloakUserCredentialsRequestDTO.builder()
                 .type("password")
                 .temporary(false)
                 .value(userChangePasswordRequestDTO.getPassword())
                 .build();
 
-        this.keycloakService.changePassword(id, keyCloakChangePasswordRequestDTO);
+        this.keycloakService.changePassword(id, keycloakUserCredentialsRequestDTO);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
                     translator.toLocale("msg_Username")
             ));
         }
-        if (ValidationUtils.validateEmail(userRequestDTO.getUsername())) {
+        if (!userRequestDTO.getUsername().isBlank() && !ValidationUtils.validateEmail(userRequestDTO.getUsername())) {
             throw new IllegalArgumentException(translator.toLocale("msg_Email_Format_Is_Not_Valid"));
         }
         if (isNull(userRequestDTO.getPassword())) {
@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
                     translator.toLocale("msg_Email")
             ));
         }
-        if (ValidationUtils.validateEmail(userRequestDTO.getEmail())) {
+        if (!userRequestDTO.getEmail().isBlank() && !ValidationUtils.validateEmail(userRequestDTO.getEmail())) {
             throw new IllegalArgumentException(translator.toLocale("msg_Email_Format_Is_Not_Valid"));
         }
     }

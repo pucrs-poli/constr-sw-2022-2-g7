@@ -25,12 +25,12 @@ public class AuthResource {
     }
 
     @GetMapping("/user-info")
-    public ResponseEntity<UserInfoResponseDTO> getUserInfo(@RequestHeader("Authorization") String token) {
-        return ResponseEntity.ok(this.authService.getUserInfo(token));
+    public ResponseEntity<UserInfoResponseDTO> getUserInfo() {
+        return ResponseEntity.ok(this.authService.getUserInfo());
     }
 
     @GetMapping("/token-introspect")
-    public ResponseEntity<TokenIntrospectResponseDTO> tokenIntrospect(@RequestHeader("Authorization") String token) {
-        return ResponseEntity.ok(this.authService.tokenIntrospect(token));
+    public ResponseEntity<TokenIntrospectResponseDTO> tokenIntrospect() {
+        return ResponseEntity.ok(this.authService.tokenIntrospect());
     }
 }

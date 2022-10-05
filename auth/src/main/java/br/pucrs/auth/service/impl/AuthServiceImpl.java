@@ -36,12 +36,12 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserInfoResponseDTO getUserInfo(String token) {
-        return this.keycloakService.getUserInfo(token);
+    public UserInfoResponseDTO getUserInfo() {
+        return this.keycloakService.getUserInfo();
     }
 
     @Override
-    public TokenIntrospectResponseDTO tokenIntrospect(String token) {
-        return this.keycloakService.tokenIntrospect(token);
+    public TokenIntrospectResponseDTO tokenIntrospect() {
+        return this.keycloakService.tokenIntrospect();
     }
 }

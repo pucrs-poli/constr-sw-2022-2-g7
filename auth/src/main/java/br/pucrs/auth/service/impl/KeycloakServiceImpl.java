@@ -1,6 +1,6 @@
 package br.pucrs.auth.service.impl;
 
-import br.pucrs.auth.dto.request.KeyCloakChangePasswordRequestDTO;
+import br.pucrs.auth.dto.request.KeycloakUserCredentialsRequestDTO;
 import br.pucrs.auth.dto.request.KeycloakUserRequestDTO;
 import br.pucrs.auth.dto.request.UserUpdateRequestDTO;
 import br.pucrs.auth.dto.response.AuthenticationResponseDTO;
@@ -46,24 +46,23 @@ public class KeycloakServiceImpl implements KeycloakService {
     @Override
     public AuthenticationResponseDTO refreshToken(String refreshToken) {
         if (isNull(refreshToken)) {
-            throw new IllegalArgumentException(translator.toLocale(
-                    "msg_Field_0_is_Required",
-                    translator.toLocale("msg_Refresh_Token")
-            ));
+            throw new IllegalArgumentException(translator.toLocale("msg_Field_0_is_Required", translator.toLocale("msg_Refresh_Token")));
         }
 
         return this.keycloakClient.refreshToken(GRANT_TYPE_REFRESH_TOKEN, clientId, clientSecret, refreshToken);
     }
 
     @Override
-    public UserInfoResponseDTO getUserInfo(String token) {
+    public UserInfoResponseDTO getUserInfo() {
+        String token = AuthUtils.getLoggedUserToken();
         this.validateTokenExists(token);
 
         return this.keycloakClient.getUserInfo(token);
     }
 
     @Override
-    public TokenIntrospectResponseDTO tokenIntrospect(String token) {
+    public TokenIntrospectResponseDTO tokenIntrospect() {
+        String token = AuthUtils.getLoggedUserToken();
         this.validateTokenExists(token);
         return this.keycloakClient.tokenIntrospect(clientId, clientSecret, token.replaceFirst("Bearer ", ""));
     }
@@ -97,10 +96,10 @@ public class KeycloakServiceImpl implements KeycloakService {
     }
 
     @Override
-    public void changePassword(String id, KeyCloakChangePasswordRequestDTO keyCloakChangePasswordRequestDTO) {
+    public void changePassword(String id, KeycloakUserCredentialsRequestDTO keycloakUserCredentialsRequestDTO) {
         String token = AuthUtils.getLoggedUserToken();
         this.validateTokenExists(token);
-        this.keycloakClient.changePassword(token, keyCloakChangePasswordRequestDTO, id);
+        this.keycloakClient.changePassword(token, keycloakUserCredentialsRequestDTO, id);
     }
 
     @Override
@@ -112,10 +111,7 @@ public class KeycloakServiceImpl implements KeycloakService {
 
     private void validateTokenExists(String token) {
         if (isNull(token)) {
-            throw new IllegalArgumentException(translator.toLocale(
-                    "msg_Field_0_is_Required",
-                    translator.toLocale("msg_Token")
-            ));
+            throw new IllegalArgumentException(translator.toLocale("msg_Field_0_is_Required", translator.toLocale("msg_Token")));
         }
     }
 }

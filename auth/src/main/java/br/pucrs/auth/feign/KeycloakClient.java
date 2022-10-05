@@ -1,6 +1,6 @@
 package br.pucrs.auth.feign;
 
-import br.pucrs.auth.dto.request.KeyCloakChangePasswordRequestDTO;
+import br.pucrs.auth.dto.request.KeycloakUserCredentialsRequestDTO;
 import br.pucrs.auth.dto.request.KeycloakUserRequestDTO;
 import br.pucrs.auth.dto.request.UserUpdateRequestDTO;
 import br.pucrs.auth.dto.response.AuthenticationResponseDTO;
@@ -41,7 +41,7 @@ public interface KeycloakClient {
     UserResponseDTO findUserById(@RequestHeader("Authorization") String token, @PathVariable String id);
 
     @PutMapping("/admin/realms/constr-sw-2022-2/users/{id}/reset-password")
-    void changePassword(@RequestHeader("Authorization") String token, @RequestBody KeyCloakChangePasswordRequestDTO keyCloakChangePasswordRequestDTO, @PathVariable("id") String id);
+    void changePassword(@RequestHeader("Authorization") String token, @RequestBody KeycloakUserCredentialsRequestDTO keycloakUserCredentialsRequestDTO, @PathVariable("id") String id);
 
     @DeleteMapping("/admin/realms/constr-sw-2022-2/users/{id}")
     void deleteUser(@RequestHeader("Authorization") String token, @PathVariable("id") String id);

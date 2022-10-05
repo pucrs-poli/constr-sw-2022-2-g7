@@ -9,7 +9,7 @@ public interface AuthService {
 
     AuthenticationResponseDTO refreshToken(String refreshToken);
 
-    UserInfoResponseDTO getUserInfo(String token);
+    UserInfoResponseDTO getUserInfo();
 
-    TokenIntrospectResponseDTO tokenIntrospect(String token);
+    TokenIntrospectResponseDTO tokenIntrospect();
 }
