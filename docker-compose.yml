@@ -1,6 +1,12 @@
 version: "3.9"
 networks:
-  constr-sw-2022-2:
+  keycloak:
+    driver: "bridge"
+  postgresql:
+    driver: "bridge"
+  auth:
+    driver: "bridge"
+  classes_ms:
     driver: "bridge"
 volumes:
   keycloak-data:
@@ -9,6 +15,8 @@ services:
   keycloak:
     container_name: keycloak
     image: jboss/keycloak:latest
+    links:
+      - "auth"
     ports:
       - "8090:8080"
     environment:
@@ -17,10 +25,25 @@ services:
     volumes:
       - keycloak-data:/opt/jboss/keycloak/standalone/data
     networks:
-      - constr-sw-2022-2
+      - keycloak
+  postgresql:
+    container_name: postgresql
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_PASSWORD=a12345678
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+    networks:
+      - postgresql
   auth:
     image: "auth:latest"
     depends_on:
+      - "keycloak"
+    links:
       - "keycloak"
     ports:
       - "8091:8091"
@@ -29,4 +52,19 @@ services:
       - AUTH_SERVER_PORT=8091
     build: ./auth
     networks:
-      - constr-sw-2022-2
+      - auth
+  classes_ms:
+    image: "classes-ms:latest"
+    depends_on:
+      - "auth"
+      - "post"
+    links:
+      - "auth"
+      - "postgresql"
+    ports:
+      - "8092:8092"
+    environment:
+      - SERVER_PORT=8092
+    build: ./classes-ms
+    networks:
+      - classes_ms

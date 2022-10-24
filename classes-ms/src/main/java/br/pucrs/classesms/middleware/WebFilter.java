@@ -17,8 +17,6 @@ import static java.util.Objects.isNull;
 @RequiredArgsConstructor
 @Slf4j
 public class WebFilter implements Filter {
-
-
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
