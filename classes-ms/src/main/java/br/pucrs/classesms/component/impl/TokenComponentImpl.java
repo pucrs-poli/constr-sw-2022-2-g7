@@ -1,64 +1,84 @@
 package br.pucrs.classesms.component.impl;
 
 import br.pucrs.classesms.component.TokenComponent;
+import br.pucrs.classesms.dto.CustomUserDetails;
 import br.pucrs.classesms.i18n.Translator;
+import br.pucrs.classesms.service.AuthService;
+import com.nimbusds.jwt.JWT;
+import com.nimbusds.jwt.JWTParser;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
+
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class TokenComponentImpl implements TokenComponent {
+    private final AuthService authService;
+
     private final Translator translator;
 
+    @SneakyThrows
     @Override
-    public boolean validateToken(String authToken) throws Exception {
+    public boolean validateToken(String authToken) {
         try {
-            Map<String, Object> tokenDecoded = tokenDecode(authToken);
-            verifyExpiration(tokenDecoded);
-
+            this.authService.userInfo(authToken);
         } catch (Exception e) {
-            log.error("sdk - Exception ao chamar validateToken - " + e.getMessage() + " - token == " + authToken);
-            throw new Exception(translator.toLocale("msg_Invalid_Token"));
+            log.error("Exception ao chamar validateToken - " + e.getMessage() + " - token == " + authToken);
+            throw new Exception(e.getMessage());
         }
 
         return true;
     }
 
-    private Map<String, Object> tokenDecode(String authToken) throws Exception {
+    @SneakyThrows
+    @Override
+    public Authentication getAuthentication(String token) {
+        ArrayList<SimpleGrantedAuthority> perm = new ArrayList<>();
+        CustomUserDetails principal = CustomUserDetails.builder()
+                .token(token)
+                .authorities(perm)
+                .build();
+
+        return new UsernamePasswordAuthenticationToken(principal, "", null);
+    }
+
+    @SneakyThrows
+    private Map<String, Object> tokenDecode(String authToken) {
         try {
-//            JWT jwtToken = JWTParser.parse(authToken);
-            // JWT jwtToken = JwtHelper.decode(authToken);
-//            Map<String, Object> tokenObj = tryExtractToken(jwtToken);
-//            if (tokenObj == null) {
-//                throw new Exception(translator.toLocale("token_mal_formatado"));
-//            }
-//            return tokenObj;
-            return null;
+            JWT jwt = JWTParser.parse(authToken);
+            if (isNull(jwt.getJWTClaimsSet()))
+                throw new Exception(translator.toLocale("msg_Badly_Formatted_Token"));
+
+            Map<String, Object> tokenObj = jwt.getJWTClaimsSet().getClaims();
+            if (isNull(tokenObj))
+                throw new Exception(translator.toLocale("msg_Badly_Formatted_Token"));
+
+            return tokenObj;
         } catch (Exception e) {
             throw new Exception(translator.toLocale("msg_Badly_Formatted_Token"));
         }
     }
 
-    private void verifyExpiration(Map<String, Object> tokenObj) throws Exception {
+    @SneakyThrows
+    private void verifyExpiration(Map<String, Object> tokenObj) {
         try {
-
             Date expirationTime = (Date) tokenObj.get("exp");
             Date now = new Date();
-            if (expirationTime != null && now.after(expirationTime)) {
+            if (nonNull(expirationTime) && now.after(expirationTime)) {
                 throw new Exception(translator.toLocale("msg_Expired_token"));
             }
-
-			/* 	Long timestamp = (long) ((Integer) tokenObj.get("exp")) * 1000;
-			Date now = new Date();
-			Date expirationTime = new Date(timestamp);
-			if (!now.before(expirationTime)) {
-				throw new Exception(translator.toLocale("token_expirado"));
-			} */
         } catch (Exception e) {
             throw new Exception(translator.toLocale("msg_Expired_token"));
         }
