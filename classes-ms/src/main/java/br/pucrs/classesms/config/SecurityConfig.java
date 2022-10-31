@@ -1,9 +1,11 @@
 package br.pucrs.classesms.config;
 
 import br.pucrs.classesms.component.TokenComponent;
+//import br.pucrs.classesms.filter.JWTFilter;
 import br.pucrs.classesms.filter.JWTFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,34 +21,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        JWTFilter customFilter = new JWTFilter(tokenProvider);
-        http.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
+//        JWTFilter customFilter = new JWTFilter(tokenProvider);
+//        http.addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class);
 
-        http.authorizeRequests()
-            .anyRequest()
-            .fullyAuthenticated()
-            .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .csrf()
-            .disable();
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(
-            "/v2/api-docs",
-            "/swagger-resources/**",
-            "/user/getCurrentUserV2/**",
-            "/user/getCurrentUserV3/**",
-            "/admuserprovider/checkCredentialApplication/**",
-            "/configuration/**",
-            "/swagger-ui.html",
-            "/webjars/**",
-            "/resources/**",
-            "/resources/static/**",
-            "/error/**",
-            "/actuator/**");
+        http.cors().and().csrf().disable()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/",
+                        "/v3/api-docs/**",
+                        "/swagger-ui.html/**",
+                        "/swagger-ui/**",
+                        "/actuator/**").permitAll()
+//                .antMatchers(HttpMethod.GET,"/classes").access("hasAnyRole('USER','ADMIN')")
+                .antMatchers("/classes").permitAll()
+//                .antMatchers("/classes").access("hasAnyRole('USER','ADMIN')")
+                .anyRequest()
+                .authenticated()
+                .and().addFilterAfter(new JWTFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
+//                .and()
+//                .addFilterAfter(new JWTLoginFilter("/users/login", authenticationManager()), UsernamePasswordAuthenticationFilter.class)
+//                .addFilterAfter(new JWTAuthenticatorFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
