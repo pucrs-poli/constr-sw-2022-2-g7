@@ -39,7 +39,7 @@ public class ClassServiceImpl implements ClassService {
 
     @Override
     public ClassResponseDTO findById(Long id) {
-        return null;
+        return this.classResponseMapper.toResponse(this.repository.findById(id).orElse(null));
     }
 
     @Override
