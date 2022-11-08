@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @Builder(toBuilder = true)
 @NoArgsConstructor
@@ -17,4 +19,5 @@ public class UserInfoResponseDTO {
     private String givenName;
     private String familyName;
     private String email;
+    private List<String> groups;
 }

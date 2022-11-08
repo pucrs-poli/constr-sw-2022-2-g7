@@ -1,8 +1,9 @@
 package br.pucrs.classesms.component;
 
+import br.pucrs.classesms.dto.response.UserInfoResponseDTO;
 import org.springframework.security.core.Authentication;
 
 public interface TokenComponent {
-    boolean validateToken(String authToken);
-    Authentication getAuthentication(String token);
+    UserInfoResponseDTO getUserInfo(String token);
+    Authentication getAuthentication(String token, UserInfoResponseDTO userInfoResponseDTO);
 }

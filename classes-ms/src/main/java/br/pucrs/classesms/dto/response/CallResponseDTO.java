@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomResponseDTO {
-    private Long roomId;
+public class CallResponseDTO {
+    private String studentName;
 }

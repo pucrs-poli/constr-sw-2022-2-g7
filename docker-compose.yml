@@ -17,8 +17,6 @@ services:
   keycloak:
     container_name: keycloak
     image: jboss/keycloak:latest
-    # links:
-    #   - "auth"
     ports:
       - "8090:8080"
     environment:
