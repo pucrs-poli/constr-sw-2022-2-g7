@@ -10,8 +10,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class CustomExceptionHandler {
     @ExceptionHandler(value = IllegalArgumentException.class)
-    public ResponseEntity<Object> handleException(IllegalArgumentException exception) {
+    public ResponseEntity<Object> handleBadRequestException(IllegalArgumentException exception) {
         log.error(exception.getMessage());
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = ClassNotFoundException.class)
+    public ResponseEntity<Object> handleNotFoundException(ClassNotFoundException exception) {
+        log.error(exception.getMessage());
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

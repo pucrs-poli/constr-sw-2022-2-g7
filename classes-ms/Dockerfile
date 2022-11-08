@@ -4,4 +4,4 @@ ENV TZ=America/Sao_Paulo
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
-ENTRYPOINT ["java","-jar", "/app/target/auth-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar", "/app/target/classes-ms-0.0.1-SNAPSHOT.jar"]

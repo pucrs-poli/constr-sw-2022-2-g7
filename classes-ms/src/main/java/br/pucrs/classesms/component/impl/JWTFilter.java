@@ -1,4 +1,4 @@
-package br.pucrs.classesms.filter;
+package br.pucrs.classesms.component.impl;
 
 import br.pucrs.classesms.component.TokenComponent;
 import com.nimbusds.jose.shaded.gson.JsonArray;
