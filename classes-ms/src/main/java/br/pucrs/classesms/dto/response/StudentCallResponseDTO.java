@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupResponseDTO {
-    private Long id;
+public class StudentCallResponseDTO {
+    private CallResponseDTO call;
+    private Long studentId;
+    private boolean present;
 }

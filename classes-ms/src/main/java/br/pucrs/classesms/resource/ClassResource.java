@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("classes")
@@ -39,5 +40,15 @@ public class ClassResource {
     @DeleteMapping("/{id}")
     public ResponseEntity<ClassResponseDTO> deleteById(@PathVariable Long id) {
         return ResponseEntity.ok(this.service.deleteById(id));
+    }
+
+    @GetMapping("/simple-query")
+    public ResponseEntity<List<ClassResponseDTO>> findAllBySimpleQuery(@RequestParam Map<String, String> params) {
+        return ResponseEntity.ok(this.service.findAllBySimpleQuery(params));
+    }
+
+    @GetMapping("/complex-query")
+    public ResponseEntity<List<ClassResponseDTO>> findAllByComplexQuery(@RequestParam Map<String, String> params) {
+        return ResponseEntity.ok(this.service.findAllByComplexQuery(params));
     }
 }

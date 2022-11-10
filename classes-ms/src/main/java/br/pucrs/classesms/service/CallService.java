@@ -2,8 +2,8 @@ package br.pucrs.classesms.service;
 
 import br.pucrs.classesms.entity.Call;
 
-import java.util.List;
-
 public interface CallService {
-    List<Call> findAllByClassId(Long id);
+    Call save(Call call);
+    Call findById(Long id);
+    Call findByClassId(Long id);
 }

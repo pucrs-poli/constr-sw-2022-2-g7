@@ -6,11 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CallMapper {
-    public static Call toEntity(CallResponseDTO dto) {
-        return Call.builder()
-                .build();
-    }
-
     public static CallResponseDTO toResponse(Call entity) {
         return CallResponseDTO.builder()
                 .build();

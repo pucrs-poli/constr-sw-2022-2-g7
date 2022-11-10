@@ -15,8 +15,8 @@ public class CustomExceptionHandler {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = ClassNotFoundException.class)
-    public ResponseEntity<Object> handleNotFoundException(ClassNotFoundException exception) {
+    @ExceptionHandler(value = NotFoundException.class)
+    public ResponseEntity<Object> handleNotFoundException(NotFoundException exception) {
         log.error(exception.getMessage());
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
