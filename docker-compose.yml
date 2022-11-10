@@ -6,8 +6,8 @@ networks:
     driver: "bridge"
   auth:
     driver: "bridge"
-  classes_ms:
-    driver: "bridge"
+  # classes_ms:
+  #   driver: "bridge"
 volumes:
   keycloak-data:
     external: true
@@ -16,7 +16,7 @@ volumes:
 services:
   keycloak:
     container_name: keycloak
-    image: jboss/keycloak:latest
+    image: wizzn/keycloak:14
     ports:
       - "8090:8080"
     environment:
@@ -53,18 +53,18 @@ services:
     build: ./auth
     networks:
       - auth
-  classes_ms:
-    image: "classes-ms:latest"
-    depends_on:
-      - "auth"
-      - "postgresql"
-    links:
-      - "auth"
-      - "postgresql"
-    ports:
-      - "8092:8092"
-    environment:
-      - SERVER_PORT=8092
-    build: ./classes-ms
-    networks:
-      - classes_ms
+  # classes_ms:
+  #   image: "classes-ms:latest"
+  #   depends_on:
+  #     - "auth"
+  #     - "postgresql"
+  #   links:
+  #     - "auth"
+  #     - "postgresql"
+  #   ports:
+  #     - "8092:8092"
+  #   environment:
+  #     - SERVER_PORT=8092
+  #   build: ./classes-ms
+  #   networks:
+  #     - classes_ms
