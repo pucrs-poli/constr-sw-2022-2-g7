@@ -1,9 +1,9 @@
 package br.pucrs.classesms.exception;
 
-public class ClassNotFoundException extends RuntimeException {
+public class NotFoundException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
-    public ClassNotFoundException(String message) {
+    public NotFoundException(String message) {
         super(message);
     }
 }

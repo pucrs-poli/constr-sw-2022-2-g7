@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity(name = "classes")
 public class Class {
     @Id
     private Long id;

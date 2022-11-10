@@ -13,9 +13,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClassResponseDTO {
-    private Long roomId;
-    private Long groupId;
+    private RoomResponseDTO room;
+    private GroupResponseDTO group;
     private LocalDateTime date;
     private String content;
-    private List<String> call;
+    private List<StudentCallResponseDTO> call;
 }
