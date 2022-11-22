@@ -18,7 +18,7 @@ services:
     container_name: keycloak
     image: jboss/keycloak:latest
     ports:
-      - "8090:8080"
+      - "8080:8080"
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=a12345678
@@ -46,12 +46,12 @@ services:
     links:
       - "keycloak"
     ports:
-      - "8091:8091"
+      - "8090:8090"
     environment:
-      - KEYCLOAK_PORT=8090
+      - KEYCLOAK_PORT=8080
       - KEYCLOAK_CLIENT_ID=grupo7
       - KEYCLOAK_CLIENT_SECRET=HjTtaSOS39LaQ62HcUC1hZo6CC16q3f2
-      - AUTH_SERVER_PORT=8091
+      - AUTH_SERVER_PORT=8090
     build: ./auth
     networks:
       - auth
@@ -64,9 +64,9 @@ services:
       - "auth"
       - "postgresql"
     ports:
-      - "8092:8092"
+      - "8087:8087"
     environment:
-      - SERVER_PORT=8092
+      - SERVER_PORT=8087
     build: ./classes-ms
     networks:
       - classes_ms
