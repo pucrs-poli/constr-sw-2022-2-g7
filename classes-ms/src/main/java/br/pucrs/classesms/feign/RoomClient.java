@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(value = "roomClient", url = "${client.rooms.url}")
 public interface RoomClient {
     @GetMapping("/{id}")
-    RoomResponseDTO findById(@PathVariable("id") Long id);
+    RoomResponseDTO findById(@PathVariable("id") String id);
 }

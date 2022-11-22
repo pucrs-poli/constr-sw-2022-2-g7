@@ -71,7 +71,7 @@ public class ClassJdbcRepositoryImpl implements ClassJdbcRepository {
 
     private RowMapper<ClassResponseDTO> rowMapperClassResponseDTO() {
         return (rs, rowNum) -> ClassResponseDTO.builder()
-                .room(RoomResponseDTO.builder().id(rs.getLong("room-id")).build())
+                .room(RoomResponseDTO.builder().id(rs.getString("room-id")).build())
                 .group(GroupResponseDTO.builder().id(rs.getLong("group-id")).build())
                 .date(DateUtils.dateToLocalDateTime(rs.getDate("date")))
                 .content(rs.getString("content"))

@@ -12,7 +12,7 @@ public class RoomServiceImpl implements RoomService {
     private final RoomClient client;
 
     @Override
-    public RoomResponseDTO findById(Long id) {
+    public RoomResponseDTO findById(String id) {
         return this.client.findById(id);
     }
 }

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClassRequestDTO {
-    private Long roomId;
+    private String roomId;
     private Long groupId;
     private LocalDateTime date;
     private String content;

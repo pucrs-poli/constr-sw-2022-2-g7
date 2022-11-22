@@ -23,7 +23,7 @@ public class Class {
     private Long groupId;
 
     @Column(name = "room_id")
-    private Long roomId;
+    private String roomId;
 
     @Column(name = "date")
     private LocalDateTime date;

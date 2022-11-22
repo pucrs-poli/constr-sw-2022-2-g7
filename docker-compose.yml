@@ -49,6 +49,8 @@ services:
       - "8091:8091"
     environment:
       - KEYCLOAK_PORT=8090
+      - KEYCLOAK_CLIENT_ID=grupo7
+      - KEYCLOAK_CLIENT_SECRET=HjTtaSOS39LaQ62HcUC1hZo6CC16q3f2
       - AUTH_SERVER_PORT=8091
     build: ./auth
     networks:
