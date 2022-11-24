@@ -22,8 +22,13 @@ services:
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=a12345678
+      #- KEYCLOAK_FRONTEND_URL=https://8090-pucrspoli-constrsw20222-5uwu1stt2g9.ws-us77.gitpod.io/auth
+    #command:
+      # jboss/keycloak realm import doesn't work at all
+    #- -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/tmp/realm.json -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
     volumes:
       - keycloak-data:/opt/jboss/keycloak/standalone/data
+      - ./constr-sw-2022-2-realm.json:/tmp/realm.json
     networks:
       - keycloak
   postgresql:
@@ -40,6 +45,7 @@ services:
     networks:
       - postgresql
   auth:
+    container_name: auth
     image: "auth:latest"
     depends_on:
       - "keycloak"
@@ -56,6 +62,7 @@ services:
     networks:
       - auth
   classes_ms:
+    container_name: classes-ms
     image: "classes-ms:latest"
     depends_on:
       - "auth"
@@ -67,6 +74,10 @@ services:
       - "8087:8087"
     environment:
       - SERVER_PORT=8087
+      - SWAGGER_CUSTOM_SERVER=https://8092-pucrspoli-constrsw20222-5uwu1stt2g9.ws-us77.gitpod.io
+      - SERVICE_GROUPS_MOCKED=true
+      - SERVICE_ROOMS_MOCKED=true
+      - SERVICE_RESERVATIONS_MOCKED=true
     build: ./classes-ms
     networks:
       - classes_ms

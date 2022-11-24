@@ -13,9 +13,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClassResponseDTO {
+    private String id;
     private RoomResponseDTO room;
     private GroupResponseDTO group;
     private LocalDateTime date;
     private String content;
     private List<StudentCallResponseDTO> call;
+    private List<ResourceResponseDTO> resources;
 }

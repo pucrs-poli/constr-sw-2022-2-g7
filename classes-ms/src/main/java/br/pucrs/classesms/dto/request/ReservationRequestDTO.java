@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentCallRequestDTO {
-    private String callId;
-    private String studentId;
-    private boolean present;
+public class ReservationRequestDTO {
+    private String observation;
+    private String classId;
+    private String resourceId;
+    private Boolean active;
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface StudentCallRepository extends JpaRepository<StudentCall, Long> {
-    List<StudentCall> findAllByCall_Id(Long callId);
+public interface StudentCallRepository extends JpaRepository<StudentCall, String> {
+    List<StudentCall> findAllByCall_Id(String callId);
+    List<StudentCall> findAllByCall_ClassE_Id(String classId);
 }

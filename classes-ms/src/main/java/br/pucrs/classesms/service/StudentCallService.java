@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface StudentCallService {
     StudentCallResponseDTO save(StudentCallRequestDTO dto);
-    List<StudentCallResponseDTO> findAllByCallId(Long callId);
+    List<StudentCallResponseDTO> findAllByClassId(String classId);
 }

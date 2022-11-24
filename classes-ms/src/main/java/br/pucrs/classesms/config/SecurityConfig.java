@@ -1,7 +1,7 @@
 package br.pucrs.classesms.config;
 
-import br.pucrs.classesms.component.TokenComponent;
-import br.pucrs.classesms.component.impl.GenericFilterBeanImpl;
+import br.pucrs.classesms.middleware.TokenComponent;
+import br.pucrs.classesms.middleware.impl.GenericFilterBeanImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     "/swagger-ui.html/**",
                     "/swagger-ui/**",
                     "/actuator/**").permitAll()
-            .antMatchers("/classes").access("hasAnyAuthority('coordenadores')")
+            .antMatchers("/classes/**").access("hasAnyAuthority('professores', '/professores')")
             .anyRequest()
             .authenticated()
             .and()
