@@ -18,12 +18,17 @@ services:
     container_name: keycloak
     image: wizzn/keycloak:14
     ports:
-      - "8090:8080"
+      - "8080:8080"
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=a12345678
+      #- KEYCLOAK_FRONTEND_URL=https://8090-pucrspoli-constrsw20222-5uwu1stt2g9.ws-us77.gitpod.io/auth
+    #command:
+      # jboss/keycloak realm import doesn't work at all
+    #- -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/tmp/realm.json -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
     volumes:
       - keycloak-data:/opt/jboss/keycloak/standalone/data
+      - ./constr-sw-2022-2-realm.json:/tmp/realm.json
     networks:
       - keycloak
   postgresql:
@@ -40,31 +45,39 @@ services:
     networks:
       - postgresql
   auth:
+    container_name: auth
     image: "auth:latest"
     depends_on:
       - "keycloak"
     links:
       - "keycloak"
     ports:
-      - "8091:8091"
+      - "8090:8090"
     environment:
-      - KEYCLOAK_PORT=8090
-      - AUTH_SERVER_PORT=8091
+      - KEYCLOAK_PORT=8080
+      - KEYCLOAK_CLIENT_ID=grupo7
+      - KEYCLOAK_CLIENT_SECRET=HjTtaSOS39LaQ62HcUC1hZo6CC16q3f2
+      - AUTH_SERVER_PORT=8090
     build: ./auth
     networks:
       - auth
-  # classes_ms:
-  #   image: "classes-ms:latest"
-  #   depends_on:
-  #     - "auth"
-  #     - "postgresql"
-  #   links:
-  #     - "auth"
-  #     - "postgresql"
-  #   ports:
-  #     - "8092:8092"
-  #   environment:
-  #     - SERVER_PORT=8092
-  #   build: ./classes-ms
-  #   networks:
-  #     - classes_ms
+  classes_ms:
+    container_name: classes-ms
+    image: "classes-ms:latest"
+    depends_on:
+      - "auth"
+      - "postgresql"
+    links:
+      - "auth"
+      - "postgresql"
+    ports:
+      - "8087:8087"
+    environment:
+      - SERVER_PORT=8087
+      - SWAGGER_CUSTOM_SERVER=https://8092-pucrspoli-constrsw20222-5uwu1stt2g9.ws-us77.gitpod.io
+      - SERVICE_GROUPS_MOCKED=true
+      - SERVICE_ROOMS_MOCKED=true
+      - SERVICE_RESERVATIONS_MOCKED=true
+    build: ./classes-ms
+    networks:
+      - classes_ms

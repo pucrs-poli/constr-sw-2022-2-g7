@@ -6,12 +6,17 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.GroupedOpenApi;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SwaggerConfig {
+    @Value( "${swagger.custom.server:#{null}}")
+    String customServer;
+
     @Bean
     public GroupedOpenApi api1() {
         return GroupedOpenApi.builder()
@@ -23,7 +28,11 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customizeOpenAPI() {
         final String securitySchemeName = "bearerAuth";
-        return new OpenAPI()
+        OpenAPI openApi = new OpenAPI();
+        if (customServer != null && customServer.length() > 0) {
+            openApi.addServersItem(new Server().url(customServer));
+        }
+        return openApi
             .info(new Info()
                 .title("Classes MS")
                 .description("Application that represents the classes.")

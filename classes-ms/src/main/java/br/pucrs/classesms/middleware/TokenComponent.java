@@ -1,4 +1,4 @@
-package br.pucrs.classesms.component;
+package br.pucrs.classesms.middleware;
 
 import br.pucrs.classesms.dto.response.UserInfoResponseDTO;
 import org.springframework.security.core.Authentication;

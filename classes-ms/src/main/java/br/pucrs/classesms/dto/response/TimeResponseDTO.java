@@ -10,11 +10,12 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomResponseDTO {
-    @JsonProperty("_id")
+public class TimeResponseDTO {
     private String id;
-    private Integer number;
-    private Integer capacity;
-    private Integer floor;
-    private String resource;
+    @JsonProperty("diaSemana")
+    private Integer dayOfWeek;
+    @JsonProperty("horario")
+    private String time;
+    @JsonProperty("vagas")
+    private Integer vacancies;
 }

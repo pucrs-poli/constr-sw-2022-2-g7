@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CallRepository extends CrudRepository<Call, Long> {
-    Optional<Call> findByClassE_Id(Long classId);
+public interface CallRepository extends CrudRepository<Call, String> {
+    Optional<Call> findByClassE_Id(String classId);
 }

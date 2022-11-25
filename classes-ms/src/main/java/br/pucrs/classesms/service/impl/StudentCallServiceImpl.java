@@ -30,8 +30,8 @@ public class StudentCallServiceImpl implements StudentCallService {
     }
 
     @Override
-    public List<StudentCallResponseDTO> findAllByCallId(Long callId) {
-        return this.repository.findAllByCall_Id(callId).stream()
+    public List<StudentCallResponseDTO> findAllByClassId(String classId) {
+        return this.repository.findAllByCall_ClassE_Id(classId).stream()
                 .map(StudentCallMapper::toResponse)
                 .collect(Collectors.toList());
     }

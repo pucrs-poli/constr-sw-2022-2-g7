@@ -23,7 +23,7 @@ public class ClassResource {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClassResponseDTO> findById(@PathVariable Long id) {
+    public ResponseEntity<ClassResponseDTO> findById(@PathVariable String id) {
         return ResponseEntity.ok(this.service.findById(id));
     }
 
@@ -38,7 +38,7 @@ public class ClassResource {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ClassResponseDTO> deleteById(@PathVariable Long id) {
+    public ResponseEntity<ClassResponseDTO> deleteById(@PathVariable String id) {
         return ResponseEntity.ok(this.service.deleteById(id));
     }
 

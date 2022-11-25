@@ -9,7 +9,7 @@ import br.pucrs.classesms.entity.Call;
 import br.pucrs.classesms.entity.Class;
 import br.pucrs.classesms.exception.NotFoundException;
 import br.pucrs.classesms.i18n.Translator;
-import br.pucrs.classesms.mapper.ClassMapper;
+import br.pucrs.classesms.mapper.ReservationMapper;
 import br.pucrs.classesms.repository.ClassJdbcRepository;
 import br.pucrs.classesms.repository.ClassRepository;
 import br.pucrs.classesms.service.*;
@@ -32,6 +32,7 @@ public class ClassServiceImpl implements ClassService {
     private final ClassJdbcRepository jdbcRepository;
     private final RoomService roomService;
     private final GroupService groupService;
+    private final ReservationService reservationService;
     private final CallService callService;
     private final StudentCallService studentCallService;
 
@@ -40,36 +41,25 @@ public class ClassServiceImpl implements ClassService {
     @SneakyThrows
     @Override
     public ClassResponseDTO save(ClassRequestDTO classRequestDTO) {
-        RoomResponseDTO roomResponseDTO = this.roomService.findById(classRequestDTO.getRoomId());
-        if (isNull(roomResponseDTO)) {
-            throw new NotFoundException(
-                    translator.toLocale("msg_0_not_found", translator.toLocale("msg_Room")));
-        }
-
-        GroupResponseDTO groupResponseDTO = this.groupService.findById(classRequestDTO.getGroupId());
-        if (isNull(groupResponseDTO)) {
-            throw new NotFoundException(
-                    translator.toLocale("msg_0_not_found", translator.toLocale("msg_Group")));
-        }
-
         Class classE = this.repository.save(toEntity(classRequestDTO));
-
         this.callService.save(Call.builder().classE(classE).build());
 
-        return toResponse(classE);
+        classRequestDTO.getResources().forEach(resource ->
+                this.reservationService.create(ReservationMapper.toRequest(classE, resource)));
+
+        return this.buildClassResponseDTO(classE);
     }
 
     @SneakyThrows
     @Override
-    public ClassResponseDTO findById(Long id) {
+    public ClassResponseDTO findById(String id) {
         Class classE = this.repository.findById(id).orElseThrow(
                 () -> new NotFoundException(
                         translator.toLocale("msg_0_not_found", translator.toLocale("msg_Class"))));
 
-        ClassResponseDTO classResponseDTO = toResponse(classE);
         Call call = this.callService.findByClassId(classE.getId());
-
-        List<StudentCallResponseDTO> studentCall = this.studentCallService.findAllByCallId(call.getId());
+        List<StudentCallResponseDTO> studentCall = this.studentCallService.findAllByClassId(call.getId());
+        ClassResponseDTO classResponseDTO = this.buildClassResponseDTO(classE);
         classResponseDTO = classResponseDTO.toBuilder().call(studentCall).build();
 
         return classResponseDTO;
@@ -78,19 +68,19 @@ public class ClassServiceImpl implements ClassService {
     @Override
     public List<ClassResponseDTO> findAll() {
         return this.repository.findAll().stream()
-                .map(ClassMapper::toResponse)
+                .map(this::buildClassResponseDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     public ClassResponseDTO update(ClassRequestDTO classRequestDTO) {
-        return toResponse(this.repository.save(toEntity(classRequestDTO)));
+        return this.buildClassResponseDTO(this.repository.save(toEntity(classRequestDTO)));
     }
 
     @SneakyThrows
     @Override
-    public ClassResponseDTO deleteById(Long id) {
-        var classResponseDTO = this.findById(id);
+    public ClassResponseDTO deleteById(String id) {
+        ClassResponseDTO classResponseDTO = this.findById(id);
         if (isNull(classResponseDTO)) {
             throw new NotFoundException(
                     translator.toLocale("msg_0_not_found", translator.toLocale("msg_Class")));
@@ -108,5 +98,22 @@ public class ClassServiceImpl implements ClassService {
     @Override
     public List<ClassResponseDTO> findAllByComplexQuery(Map<String, String> params) {
         return this.jdbcRepository.findAllByComplexQuery(params);
+    }
+
+    private ClassResponseDTO buildClassResponseDTO(Class classE) {
+        RoomResponseDTO roomResponseDTO = this.roomService.findById(classE.getRoomId());
+        GroupResponseDTO groupResponseDTO = this.groupService.findById(classE.getGroupId());
+//        List<ReservationResponseDTO> reservationResponseDTOs = reservationService.findByClassId(classRequestDTO);
+
+        return toResponse(classE, roomResponseDTO, groupResponseDTO, null);
+    }
+
+    private ClassResponseDTO buildClassResponseDTO(ClassRequestDTO classRequestDTO) {
+        RoomResponseDTO roomResponseDTO = this.roomService.findById(classRequestDTO.getRoomId());
+        GroupResponseDTO groupResponseDTO = this.groupService.findById(classRequestDTO.getGroupId());
+//        List<ReservationResponseDTO> reservationResponseDTOs = reservationService.findByClassId(classRequestDTO);
+
+//        return toResponse(classE, roomResponseDTO, groupResponseDTO, null);
+        return ClassResponseDTO.builder().build();
     }
 }

@@ -6,14 +6,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClassRequestDTO {
-    private Long roomId;
+    private String roomId;
     private Long groupId;
     private LocalDateTime date;
     private String content;
+    private List<ResourceRequestDTO> resources;
 }

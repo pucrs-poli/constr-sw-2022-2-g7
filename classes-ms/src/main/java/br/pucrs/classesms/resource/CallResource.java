@@ -19,12 +19,12 @@ public class CallResource {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Call> findById(@PathVariable Long id) {
+    public ResponseEntity<Call> findById(@PathVariable String id) {
         return ResponseEntity.ok(this.service.findById(id));
     }
 
     @GetMapping("/find-by-class/{id}")
-    public ResponseEntity<Call> findByClassId(@PathVariable Long id) {
+    public ResponseEntity<Call> findByClassId(@PathVariable String id) {
         return ResponseEntity.ok(this.service.findByClassId(id));
     }
 }

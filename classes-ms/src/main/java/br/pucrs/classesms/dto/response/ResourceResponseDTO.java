@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentCallResponseDTO {
-    private CallResponseDTO call;
-    private String studentId;
-    private boolean present;
+public class ResourceResponseDTO {
+    private String id;
+    private String name;
 }

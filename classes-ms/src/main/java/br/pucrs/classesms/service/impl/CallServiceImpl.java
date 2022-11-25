@@ -21,14 +21,14 @@ public class CallServiceImpl implements CallService {
     }
 
     @Override
-    public Call findById(Long id) {
+    public Call findById(String id) {
         return this.repository.findById(id).orElseThrow(
                 () -> new NotFoundException(
                         translator.toLocale("msg_0_not_found", translator.toLocale("msg_Call"))));
     }
 
     @Override
-    public Call findByClassId(Long id) {
+    public Call findByClassId(String id) {
         return this.repository.findByClassE_Id(id).orElseThrow(
                 () -> new NotFoundException(
                         translator.toLocale("msg_0_not_found", translator.toLocale("msg_Call"))));

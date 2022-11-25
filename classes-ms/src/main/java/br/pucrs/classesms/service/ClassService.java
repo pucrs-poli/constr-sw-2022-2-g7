@@ -8,10 +8,10 @@ import java.util.Map;
 
 public interface ClassService {
     ClassResponseDTO save(ClassRequestDTO classRequestDTO);
-    ClassResponseDTO findById(Long id);
+    ClassResponseDTO findById(String id);
     List<ClassResponseDTO> findAll();
     ClassResponseDTO update(ClassRequestDTO classRequestDTO);
-    ClassResponseDTO deleteById(Long id);
+    ClassResponseDTO deleteById(String id);
     List<ClassResponseDTO> findAllBySimpleQuery(Map<String, String> params);
     List<ClassResponseDTO> findAllByComplexQuery(Map<String, String> params);
 }

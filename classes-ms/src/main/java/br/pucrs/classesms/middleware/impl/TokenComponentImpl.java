@@ -1,8 +1,8 @@
-package br.pucrs.classesms.component.impl;
+package br.pucrs.classesms.middleware.impl;
 
-import br.pucrs.classesms.component.TokenComponent;
 import br.pucrs.classesms.dto.CustomUserDetails;
 import br.pucrs.classesms.dto.response.UserInfoResponseDTO;
+import br.pucrs.classesms.middleware.TokenComponent;
 import br.pucrs.classesms.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

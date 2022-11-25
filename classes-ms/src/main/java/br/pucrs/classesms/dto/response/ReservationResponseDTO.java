@@ -6,15 +6,19 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomResponseDTO {
-    @JsonProperty("_id")
+public class ReservationResponseDTO {
     private String id;
-    private Integer number;
-    private Integer capacity;
-    private Integer floor;
-    private String resource;
+    @JsonProperty("start_date")
+    private LocalDateTime startDate;
+    @JsonProperty("end_date")
+    private LocalDateTime endDate;
+    private String observation;
+    private ResourceResponseDTO resource;
+    private Boolean active;
 }

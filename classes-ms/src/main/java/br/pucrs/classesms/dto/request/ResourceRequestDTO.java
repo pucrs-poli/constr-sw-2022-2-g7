@@ -1,4 +1,4 @@
-package br.pucrs.classesms.dto.response;
+package br.pucrs.classesms.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentCallResponseDTO {
-    private CallResponseDTO call;
-    private String studentId;
-    private boolean present;
+public class ResourceRequestDTO {
+    private String id;
+    private String name;
 }

@@ -1,7 +1,7 @@
-package br.pucrs.classesms.component.impl;
+package br.pucrs.classesms.middleware.impl;
 
-import br.pucrs.classesms.component.TokenComponent;
 import br.pucrs.classesms.dto.response.UserInfoResponseDTO;
+import br.pucrs.classesms.middleware.TokenComponent;
 import com.nimbusds.jose.shaded.gson.JsonArray;
 import com.nimbusds.jose.shaded.gson.JsonObject;
 import lombok.RequiredArgsConstructor;

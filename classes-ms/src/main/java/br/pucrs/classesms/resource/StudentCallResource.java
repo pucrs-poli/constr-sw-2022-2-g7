@@ -22,7 +22,7 @@ public class StudentCallResource {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<StudentCallResponseDTO>> findAllByCallId(@PathVariable Long id) {
-        return ResponseEntity.ok(this.service.findAllByCallId(id));
+    public ResponseEntity<List<StudentCallResponseDTO>> findAllByClassId(@PathVariable String id) {
+        return ResponseEntity.ok(this.service.findAllByClassId(id));
     }
 }
