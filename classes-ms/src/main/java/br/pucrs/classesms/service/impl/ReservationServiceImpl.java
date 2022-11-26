@@ -38,6 +38,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationResponseDTO create(ReservationRequestDTO reservation) {
         String token = getLoggedUserToken();
+        token = token.replace("Bearer ", "");
         return this.client.create(reservation, token);
     }
 }
