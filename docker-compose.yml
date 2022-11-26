@@ -75,9 +75,13 @@ services:
     environment:
       - SERVER_PORT=8087
       - SWAGGER_CUSTOM_SERVER=https://8092-pucrspoli-constrsw20222-5uwu1stt2g9.ws-us77.gitpod.io
+      - POSTGRES_HOST=postgresql
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=a12345678
+      - SERVICE_ROOMS_MOCKED=false
       - SERVICE_GROUPS_MOCKED=true
-      - SERVICE_ROOMS_MOCKED=true
-      - SERVICE_RESERVATIONS_MOCKED=true
+      - SERVICE_RESERVATIONS_MOCKED=false
     build: ./classes-ms
     networks:
       - classes_ms
